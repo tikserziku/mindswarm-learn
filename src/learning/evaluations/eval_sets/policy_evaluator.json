@@ -1,0 +1,123 @@
+[
+  {
+    "name": "free_tier_basic_powerup_allow",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "free", "status": "ready"},
+      "powerup_tier": "basic",
+      "disk_additional_gb": 0
+    },
+    "expected": {
+      "decision": "allow",
+      "risk_level": "low",
+      "risk_score": [15, 25]
+    },
+    "checks": [
+      "field_match:decision",
+      "field_match:risk_level",
+      "range_check:risk_score"
+    ]
+  },
+  {
+    "name": "free_tier_ultra_powerup_review",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "free", "status": "ready"},
+      "powerup_tier": "ultra",
+      "disk_additional_gb": 0
+    },
+    "expected": {
+      "decision": "require_manual_review",
+      "risk_level": "high",
+      "risk_score": [60, 100]
+    },
+    "checks": [
+      "field_match:decision",
+      "field_match:risk_level",
+      "range_check:risk_score"
+    ]
+  },
+  {
+    "name": "pro_tier_advanced_powerup_allow",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "pro", "status": "ready"},
+      "powerup_tier": "advanced",
+      "disk_additional_gb": 0
+    },
+    "expected": {
+      "decision": "allow",
+      "risk_level": "medium",
+      "risk_score": [20, 50]
+    },
+    "checks": [
+      "field_match:decision",
+      "range_check:risk_score"
+    ]
+  },
+  {
+    "name": "high_disk_requires_review",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "free", "status": "ready"},
+      "powerup_tier": "basic",
+      "disk_additional_gb": 100
+    },
+    "expected": {
+      "decision": ["allow", "require_manual_review"],
+      "risk_score": [45, 70],
+      "risk_factors": "high_disk_request"
+    },
+    "checks": [
+      "in_set:decision",
+      "range_check:risk_score"
+    ]
+  },
+  {
+    "name": "scale_tier_basic_low_risk",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "scale", "status": "ready"},
+      "powerup_tier": "basic",
+      "disk_additional_gb": 0
+    },
+    "expected": {
+      "decision": "allow",
+      "risk_level": "low",
+      "risk_score": [0, 15]
+    },
+    "checks": [
+      "field_match:decision",
+      "field_match:risk_level",
+      "range_check:risk_score"
+    ]
+  },
+  {
+    "name": "decision_field_exists",
+    "input": {
+      "action": "upgrade_vm",
+      "environment": {"plan_tier": "free"},
+      "powerup_tier": "basic"
+    },
+    "expected": {},
+    "checks": [
+      "field_exists:decision",
+      "field_exists:risk_score",
+      "field_exists:risk_level"
+    ]
+  },
+  {
+    "name": "risk_factors_is_list",
+    "input": {
+      "action": "install_powerup",
+      "environment": {"plan_tier": "free"},
+      "powerup_tier": "ultra",
+      "disk_additional_gb": 100
+    },
+    "expected": {},
+    "checks": [
+      "field_exists:risk_factors",
+      "field_exists:required_approvals"
+    ]
+  }
+]

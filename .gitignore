@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+data/learning_progress.json
+data/eval_history.json
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/

@@ -1,0 +1,68 @@
+# Challenge 10: promptfoo CI Configuration
+# Course: Prompt Evaluations, Lesson 5
+#
+# Run: npx promptfoo eval
+# View: npx promptfoo view
+
+description: "A2A SaaS Agent Evaluations"
+
+providers:
+  - id: anthropic:messages:claude-haiku-4-5-20251001
+    label: haiku
+    config:
+      max_tokens: 1024
+      temperature: 0
+
+prompts:
+  - file://apps/orchestrator/prompts/policy_evaluator.txt
+  - file://apps/orchestrator/prompts/powerup_installer.txt
+
+tests:
+  # Policy Evaluator Tests
+  - description: "Free tier basic powerup should allow"
+    vars:
+      action: install_powerup
+      plan_tier: free
+      powerup_tier: basic
+      disk_additional_gb: 0
+    assert:
+      - type: contains
+        value: '"decision"'
+      - type: contains
+        value: '"allow"'
+      - type: is-json
+
+  - description: "Free tier ultra powerup should require review"
+    vars:
+      action: install_powerup
+      plan_tier: free
+      powerup_tier: ultra
+      disk_additional_gb: 0
+    assert:
+      - type: contains
+        value: '"require_manual_review"'
+      - type: is-json
+
+  - description: "Scale tier basic should be low risk"
+    vars:
+      action: install_powerup
+      plan_tier: scale
+      powerup_tier: basic
+      disk_additional_gb: 0
+    assert:
+      - type: contains
+        value: '"low"'
+      - type: is-json
+
+  - description: "High disk should flag risk"
+    vars:
+      action: install_powerup
+      plan_tier: free
+      powerup_tier: basic
+      disk_additional_gb: 100
+    assert:
+      - type: contains
+        value: "high_disk"
+      - type: is-json
+
+outputPath: data/eval_results/promptfoo_output.json
