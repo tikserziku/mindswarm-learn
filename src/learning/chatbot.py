@@ -31,8 +31,8 @@ class SupportChatbot:
     from the platform's data files.
     """
 
-    def __init__(self, data_dir: Path) -> None:
-        self.data_dir = data_dir
+    def __init__(self, data_dir: str | Path) -> None:
+        self.data_dir = Path(data_dir)
 
     def _read_json(self, filename: str) -> Any:
         """Read a JSON data file."""

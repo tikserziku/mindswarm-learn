@@ -381,3 +381,11 @@ def get_tools_for_agent(agent_name: str) -> list[dict[str, Any]]:
         "support_chatbot": SUPPORT_CHATBOT_TOOLS,
     }
     return mapping.get(agent_name, [])
+
+AGENT_TOOL_MAP = {
+    "policy_evaluator": POLICY_AGENT_TOOLS,
+    "vm_provisioner": PROVISIONING_AGENT_TOOLS,
+    "powerup_installer": POWERUP_AGENT_TOOLS,
+    "vm_upgrader": UPGRADE_AGENT_TOOLS,
+    "support_chatbot": SUPPORT_CHATBOT_TOOLS,
+}

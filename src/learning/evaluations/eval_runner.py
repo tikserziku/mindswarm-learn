@@ -99,11 +99,11 @@ class EvalRunner:
         print(f"Passed: {report['passed']}/{report['total']}")
     """
 
-    def __init__(self, data_dir: Path) -> None:
-        self.data_dir = data_dir
+    def __init__(self, data_dir: str | Path) -> None:
+        self.data_dir = Path(data_dir)
         self.eval_sets_dir = Path(__file__).parent / "eval_sets"
         self.eval_sets_dir.mkdir(parents=True, exist_ok=True)
-        self.results_file = data_dir / "eval_history.json"
+        self.results_file = self.data_dir / "eval_history.json"
 
     def run(
         self,

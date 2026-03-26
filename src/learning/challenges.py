@@ -139,9 +139,9 @@ CHALLENGES = [
 class ChallengeTracker:
     """Track learning progress through challenges."""
 
-    def __init__(self, data_dir: Path) -> None:
-        self.data_dir = data_dir
-        self.progress_file = data_dir / "learning_progress.json"
+    def __init__(self, data_dir: str | Path) -> None:
+        self.data_dir = Path(data_dir)
+        self.progress_file = self.data_dir / "learning_progress.json"
         self._ensure_file()
 
     def _ensure_file(self) -> None:

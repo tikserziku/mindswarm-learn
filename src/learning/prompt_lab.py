@@ -99,9 +99,9 @@ class PromptLab:
         })
     """
 
-    def __init__(self, data_dir: Path) -> None:
-        self.data_dir = data_dir
-        self.library_file = data_dir / "prompt_library.json"
+    def __init__(self, data_dir: str | Path) -> None:
+        self.data_dir = Path(data_dir)
+        self.library_file = self.data_dir / "prompt_library.json"
         self._prompts: dict[str, PromptDefinition] = {}
         self._load_library()
 

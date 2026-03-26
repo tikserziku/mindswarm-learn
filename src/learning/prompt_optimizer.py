@@ -28,11 +28,11 @@ class PromptOptimizer:
     This closes the learning loop: build → evaluate → improve → repeat.
     """
 
-    def __init__(self, data_dir: Path) -> None:
-        self.data_dir = data_dir
-        self.audit_dir = data_dir / "agent_audit"
-        self.history_file = data_dir / "eval_history.json"
-        self.optimization_log = data_dir / "optimization_log.jsonl"
+    def __init__(self, data_dir: str | Path) -> None:
+        self.data_dir = Path(data_dir)
+        self.audit_dir = self.data_dir / "agent_audit"
+        self.history_file = self.data_dir / "eval_history.json"
+        self.optimization_log = self.data_dir / "optimization_log.jsonl"
 
     def analyze(self, agent_name: str) -> dict[str, Any]:
         """Analyze an agent's performance and suggest improvements."""
